@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:wordle_api/wordle_api.dart';
@@ -45,19 +43,11 @@ List<LetterPositionState> compareWords(
 }
 
 /// Picks a random word from the `words.json` list.
-Future<String> getRandomWord() async {
-  final wordsJson = await getWordsJson();
+String getRandomWord() {
+  final words = allWords;
 
-  final randomWordIndex = Random().nextInt(wordsJson.length);
-  final randomWord = wordsJson[randomWordIndex];
+  final randomWordIndex = Random().nextInt(words.length);
+  final randomWord = words[randomWordIndex];
 
   return randomWord;
-}
-
-Future<List<String>> getWordsJson() async {
-  final file = File('lib/src/data/words.json');
-  final content = await file.readAsString();
-  final json = jsonDecode(content) as List;
-
-  return json.cast<String>();
 }
