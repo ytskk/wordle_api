@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:wordle_api/wordle_api.dart';
 
 typedef BoardScheme = List<List<LetterStateWithKey>>;
@@ -81,14 +80,19 @@ class WordleGameFactory {
       ...oldBoard,
     ];
 
-    final newBoardRow = oldBoard[boardRow]
-        .mapIndexed(
-          (index, element) => LetterStateWithKey(
-            state: result[index],
-            key: KeyboardKeyTypeLetter(guessedWord[index]),
-          ),
-        )
-        .toList();
+    final newBoardRow = [
+      ...oldBoard[boardRow],
+    ];
+
+    for (var i = 0; i < guessedWord.length; i += 1) {
+      final letter = guessedWord[i];
+      final letterState = result[i];
+
+      newBoardRow[i] = LetterStateWithKey(
+        state: letterState,
+        key: KeyboardKeyTypeLetter(letter),
+      );
+    }
 
     newBoard[boardRow] = newBoardRow;
 
